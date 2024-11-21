@@ -31,6 +31,8 @@ func NewClient() (kubernetes.Interface, error) {
 	if kubeConfig == "" {
 		kubeConfig = filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	}
+	// client-go 内部实现中，使用 KUBERNETES_SERVICE_HOST 和 KUBERNETES_SERVICE_PORT
+	// 这两个环境变量来判断是否在 kubernetes 集群中
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		config, err = clientcmd.BuildConfigFromFlags("", kubeConfig)
